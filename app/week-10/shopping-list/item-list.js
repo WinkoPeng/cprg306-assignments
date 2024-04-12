@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from 'react';
-import Item from "./item.js";
+import Item from "./item";
 //import itemsList from "./items.json";
 
-export default function ItemList( {items} ) {
+export default function ItemList( {items, onItemSelect } ) {
   //define constant variables
   const nameValue = "name";
   const categoryValue = "category";
@@ -18,7 +18,7 @@ export default function ItemList( {items} ) {
   //assign variables
   //let myItemList = [...itemsList];  
   let myItemList = [...items]; 
-  
+
   
   //handle button click
   function handleClick(value) {
@@ -35,17 +35,17 @@ export default function ItemList( {items} ) {
     //myItemList = myItemList.sort((a, b) => a.category > b.category  ? 1 : -1);
     myItemList = myItemList.sort(
       function(a, b) {          
-         if (a.category === b.category) {
+        if (a.category === b.category) {
             //sort name if the category is the same
             return a.name > b.name;
-         }
-         return  a.category > b.category ? 1 : -1;
+        }
+        return  a.category > b.category ? 1 : -1;
       });
-  } 
+  }   
 
   return (
     <>
-      <div  className="mt-8 w-auto text-white">
+      <div className="mt-8 w-auto">
         <label htmlFor="sort">Sort by: </label>
         <button className={`p-1 m-2 w-28 ${activeButton === nameValue  ? activeButtonColor : inactiveButtonColor}`}
            value={nameValue} 
@@ -60,6 +60,7 @@ export default function ItemList( {items} ) {
             quantity={item.quantity}
             category={item.category} 
             key={item.id} 
+            onSelect={() => onItemSelect(item.name)}
           />          
         ))}     
     </>

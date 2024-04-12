@@ -2,24 +2,32 @@
 
 import { useState } from "react";
 
-export default function NewItem() {
+export default function NewItem( {onAddItem} ) {
     const [ name, setName ] = useState("");
     const [ quantity, setQuantity ] = useState("1");
     const [ category, setCategory ] = useState("produce");
-    const [ itemCreated, setItemCreated ] = useState(false);
-
+    //const [ itemCreated, setItemCreated ] = useState(false); // not used for week-10
+    
     const handleSubmit = (event) => {
         event.preventDefault();
-    
-        alert("Added item: " + name + ", quantity: " + quantity + ", category: " + category);
-    
-        setItemCreated(true);
+
+        //alert("Added item: " + name + ", quantity: " + quantity + ", category: " + category);
+        // id:Math.random(), // not used for week-10
+        const newItem = {           
+            name,
+            quantity,
+            category
+          };
+
+        onAddItem(newItem);
+
+       // setItemCreated(true); // not used for week-10
     
         setName("");
         setQuantity("1");
         setCategory("produce");
     
-        setItemCreated(false);
+       // setItemCreated(false);
     };
 
     const handleNameChange = (event) => {
@@ -34,10 +42,10 @@ export default function NewItem() {
         setCategory(event.target.value);
     };
 
+    // {itemCreated}  // not used for week-10
     return (
-        <main className="flex justify-center w-full">
-            {itemCreated}                    
-            <form className="p-2 m-4 bg-slate-900 text-black max-w-sm w-full" onSubmit={handleSubmit}>
+        <>                  
+            <form className= "text-black" onSubmit={handleSubmit}>
                 <div className="mb-2">
                     <input type="text" placeholder="Item name" required className="w-full mt-1 border-2 border-gray-300 p-2 rounded-lg font-sans"
                     onChange={handleNameChange}
@@ -67,9 +75,8 @@ export default function NewItem() {
                 <button type="submit" className="w-full mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                 +</button>
             </form>            
-        </main>
+        </>
     );
 }
-
 
 

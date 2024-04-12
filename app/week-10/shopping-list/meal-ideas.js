@@ -19,12 +19,13 @@ export default function MealIdeas( {ingredient} ) {
     //define function loadMealIdeas
     async function loadMealIdeas() {
         try {
-            const meals = await fetchMealIdeas(ingredient);
 
+            const meals = await fetchMealIdeas(ingredient);
+           
             //ingredients or meal is null, set meals as empty array
             if (!meals || !ingredient)
                 setMeals([]);            
-            else
+            else 
                 setMeals(meals);
 
         } catch (error) {
@@ -45,20 +46,21 @@ export default function MealIdeas( {ingredient} ) {
                     /* set the default display message */
                     !ingredient ? 
                         <p>Select an item to see meal ideas</p> : 
-                        meals.length == 0 ? <p>No meal ideas found for {ingredient}</p> :
-                            <p>Here are some meal ideas using {ingredient}:</p>                                
-                }                                  
-                <ul>                    
-                    {
-                        /* display the meal ideas list */
-                        meals.map((meal) => (
-                            <li key={meal.idMeal} className="p-2 m-1 bg-slate-900 max-w-sm hover:bg-orange-800 cursor-pointer">
-                                {meal.strMeal}
-                            </li> ))
-                    }
-                </ul>
+                        (meals && meals.length > 0) ? 
+                            <><p>Here are some meal ideas using {ingredient}:</p>     
+                                <ul>                    
+                                    {
+                                        /* display the meal ideas list */
+                                        meals.map((meal) => (
+                                            <li key={meal.idMeal} className="p-2 m-1 bg-slate-900 max-w-sm hover:bg-orange-800 cursor-pointer">
+                                                {meal.strMeal}
+                                            </li> ))
+                                    }
+                                </ul>     
+                            </> :
+                            <p>No meal ideas found for {ingredient}</p>                   
+                } 
             </div>
         </div>
     );
-
 }

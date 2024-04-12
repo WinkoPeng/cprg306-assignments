@@ -5,11 +5,14 @@ import ItemList from './item-list.js';
 import NewItem from "./new-item";
 import itemsData from "./items.json";
 import MealIdeas from './meal-ideas.js';
+import { useUserAuth } from '../_utils/auth-context.js';
 
 export default function Page() {
     //Initialize a state variable items with the data from items.json
     const [items, setItems] = useState(itemsData);
     const [selectedItemName, setSelectedItemName] = useState('');
+
+    const { user } = useUserAuth();
 
     //Create an event handler function handleAddItem that adds a new item to items
     const handleAddItem = (item) => {
@@ -24,20 +27,28 @@ export default function Page() {
 
     return (
       <main className="bg-slate-950 p-2 m-2 text-white">     
-        <h2 className="text-3xl font-bold mb-4">Shopping List</h2> 
-          
-            <div className="flex">
-              <div className="flex-1 max-w-sm m-2">
-                <h3 className="text-xl font-bold">Add New Item</h3>
+       {user ?     
+          <>
+              <h2 className="text-3xl font-bold mb-4">Shopping List</h2>         
+              <div className="flex">
+                <div className="flex-1 max-w-sm m-2">
+                  <h3 className="text-xl font-bold">Add New Item</h3>
                   <NewItem onAddItem={handleAddItem} />
-                <ul>
-                    <ItemList items={items} onItemSelect={handleItemSelect} />
-                </ul>
-              </div>
-              <div className="flex-1 max-w-sm m-2">
-                <MealIdeas ingredient={selectedItemName} />
-              </div>
-            </div>      
+                  <ul>
+                      <ItemList items={items} onItemSelect={handleItemSelect} />
+                  </ul>
+                </div>
+                <div className="flex-1 max-w-sm m-2">
+                  <MealIdeas ingredient={selectedItemName} />
+                </div>
+              </div>  
+          </> 
+          :
+          <>
+            <p>Your need to be signed in to view this page.</p>
+            <a className="text-lg hover:underline" href="/week-8/">Back to Landing Page</a>
+          </>
+        }        
       </main>
     );
   }
